@@ -1,6 +1,27 @@
 import numpy as np
 import scipy.stats as st
 
+# The training data we're processing looks like this:
+#
+# Attributes:   A1   A2   A3   A4   A5   ... Am    (m elements)
+#
+# Data, row 1:  A1V1 A2V1 A3V1 A4V1 A5V1 ... AmV1
+# Data, row 2:  A1V2 A2V2 A3V2 A4V2 A5V2 ... AmV2
+# Data, row 3:  A1V3 A2V3 A3V3 A4V3 A5V3 ... AmV3
+# Data, row 4:  A1V4 A2V4 A3V4 A4V4 A5V4 ... AmV4
+# Data, row 5:  A1V5 A2V5 A3V5 A4V5 A5V5 ... AmV5
+#    .          .    .    .    .    .        .
+#    .          .    .    .    .    .        .
+#    .          .    .    .    .    .        .
+# Data, row n:  A1Vn A2Vn A3Vn A4Vn A5Vn ... A5Vn  (n rows [1 example per row])
+#   where AiVj represents Value j for Attribute i (note: data[0,0] = A1V1)
+#
+# Labels: l1 l2 l3 l4 l5 ... Ln (n elements, 1 for each example)
+#
+# Attribute data is a single column selection from our data
+# Attribute_data: AiV1 AiV2 AiV3 AiV4 AiV5 ... AiVn (n elements, 1 for each example)
+#
+
 
 def entropy(attribute_data):
     """
