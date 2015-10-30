@@ -16,7 +16,7 @@ import scipy.stats as st
 # Data, row n:  A1Vn A2Vn A3Vn A4Vn A5Vn ... A5Vn  (n rows [1 example per row])
 #   where AiVj represents Value j for Attribute i (note: data[0,0] = A1V1)
 #
-# Labels: l1 l2 l3 l4 l5 ... Ln (n elements, 1 for each example)
+# Labels: L1 L2 L3 L4 L5 ... Ln (n elements, 1 for each example)
 #
 # Attribute data is a single column selection from our data
 # Attribute_data: AiV1 AiV2 AiV3 AiV4 AiV5 ... AiVn (n elements, 1 for each example)
