@@ -48,7 +48,8 @@ def info_gain(attribute_data, labels):
     for attr_val, attr_val_count in attr_val_counts.items():
         EA += attr_val_count * entropy(labels[attribute_data == attr_val])
 
-    return entropy(attribute_data) - EA / total_count
+# Issue #1: Take entropy/information on global labels not on attribute data
+    return entropy(labels) - EA / total_count
 
 
 def get_count_dict(data):
