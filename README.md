@@ -10,5 +10,5 @@ It then goes on to train using 25 bootstrap samples (bagging), repeatedly for tr
 
 The bias, variance and overall accuracy is then plotted against tree depth.
 
-It's only running with best accuracy a little over 60% which isn't great.
-
+Accuracy on the small dataset provided is about 71% which seems fairly reasonable. The accuracy had been at a little over 60% before
+@surajrautela pointed out an error in the information gsin calculation.
