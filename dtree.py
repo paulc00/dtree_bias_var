@@ -1,6 +1,8 @@
 import numpy as np
 import scipy.stats as st
 
+# this code only runs under python3
+
 # The training data we're processing looks like this:
 #
 # Attributes:   A1   A2   A3   A4   A5   ... Am    (m elements)
