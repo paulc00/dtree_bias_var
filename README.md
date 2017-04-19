@@ -12,3 +12,5 @@ The bias, variance and overall accuracy is then plotted against tree depth.
 
 Accuracy on the small dataset provided is about 71% which seems fairly reasonable. The accuracy had been at a little over 60% before
 @surajrautela pointed out an error in the Information Gain calculation.
+
+*The code was written and tested in python3. It will not work with python2.*
