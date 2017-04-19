@@ -3,6 +3,8 @@ import scipy.stats as st
 from dtree import DecisionTree
 import matplotlib.pyplot as plt
 
+# this code only runs under python3
+
 
 def read_file(filename, sep=' '):
     """
