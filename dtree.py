@@ -50,7 +50,7 @@ def info_gain(attribute_data, labels):
     for attr_val, attr_val_count in attr_val_counts.items():
         EA += attr_val_count * entropy(labels[attribute_data == attr_val])
 
-# Issue #1: Take entropy/information on global labels not on attribute data
+    # Issue #1: Take entropy/information on global labels not on attribute data
     return entropy(labels) - EA / total_count
 
 
@@ -96,10 +96,12 @@ def hypothesis_test(attribute_data, labels, p_threshold=None, return_p_value=Fal
             # probability of the label within the attribute
             exp_label_count_attr_val = attr_val_ratio * label_counts[label_attr_val]
             # Calculate the Chi-square statistic
-            statistic += (label_count_attr_val - exp_label_count_attr_val)**2 / exp_label_count_attr_val
+            statistic += (
+                label_count_attr_val - exp_label_count_attr_val
+            ) ** 2 / exp_label_count_attr_val
 
     # Calculate the p value from the chi-square distribution CDF
-    p_value = 1 - st.chi2.cdf(statistic, df=(m-1)*(k-1))
+    p_value = 1 - st.chi2.cdf(statistic, df=(m - 1) * (k - 1))
 
     if return_p_value:
         return p_value < p_threshold, p_value
@@ -128,7 +130,18 @@ class DecisionTree:
     # max depth, for pruning
     max_level = 10000000
 
-    def __init__(self, data, labels, attributes, fitness_func=info_gain, value=None, parent=None, p_threshold=1.0, max_level=None, old_level=0):
+    def __init__(
+        self,
+        data,
+        labels,
+        attributes,
+        fitness_func=info_gain,
+        value=None,
+        parent=None,
+        p_threshold=1.0,
+        max_level=None,
+        old_level=0,
+    ):
         """
         Create a Decision tree node
         :param data: Attribute values (example inputs)
@@ -190,10 +203,14 @@ class DecisionTree:
 
     def __repr__(self):
         if self.children is None:
-            return "x[{0}]={1}, y={2}".format(self.parent.attribute, self.attribute_value, self.label)
+            return "x[{0}]={1}, y={2}".format(
+                self.parent.attribute, self.attribute_value, self.label
+            )
         else:
             if self.parent is not None:
-                return "x[{0}]={1}, p={2}".format(self.parent.attribute, self.attribute_value, self.p_value)
+                return "x[{0}]={1}, p={2}".format(
+                    self.parent.attribute, self.attribute_value, self.p_value
+                )
             else:
                 return "p={0}".format(self.p_value)
 
@@ -212,7 +229,9 @@ class DecisionTree:
         attribute_data = data[:, best_attribute_column]
 
         # Prune if hypothesis test fails
-        no_prune, self.p_value = hypothesis_test(attribute_data, labels, return_p_value=True, p_threshold=self.p_threshold)
+        no_prune, self.p_value = hypothesis_test(
+            attribute_data, labels, return_p_value=True, p_threshold=self.p_threshold
+        )
 
         if not no_prune:
             # The try-return is probably not required here and above
@@ -229,10 +248,21 @@ class DecisionTree:
         self.children = []
         for val in np.unique(attribute_data):
             # Create children for data where the split attribute == val for each unique value for the attribute
-            child_data = np.delete(data[attribute_data == val,:], best_attribute_column,1)
+            child_data = np.delete(
+                data[attribute_data == val, :], best_attribute_column, 1
+            )
             child_labels = labels[attribute_data == val]
-            self.children.append(DecisionTree(child_data, child_labels, child_attributes, value=val, parent=self,
-                                              old_level=self.level, max_level=self.max_level))
+            self.children.append(
+                DecisionTree(
+                    child_data,
+                    child_labels,
+                    child_attributes,
+                    value=val,
+                    parent=self,
+                    old_level=self.level,
+                    max_level=self.max_level,
+                )
+            )
 
     def choose_best_attribute(self, data, labels, attributes, fitness):
         """
@@ -243,7 +273,7 @@ class DecisionTree:
         :param fitness: the closeness of fit function
         :return: empty ... self.attribute will be set by this function instead
         """
-        best_gain = float('-inf')
+        best_gain = float("-inf")
         for attribute in attributes:
             attribute_data = data[:, attributes.index(attribute)]
             gain = fitness(attribute_data, labels)
@@ -263,7 +293,7 @@ class DecisionTree:
 
         # If we're down to one record then convert it back to a 2-D array
         if len(data.shape) == 1:
-            data = np.reshape(data, (1,len(data)))
+            data = np.reshape(data, (1, len(data)))
 
         if self.children is None:
             # If we're at the bottom of the tree then return the labels for all records as the tree node label
@@ -274,7 +304,7 @@ class DecisionTree:
 
         for child in self.children:
             # Get the array indexes where the split attibute value  = child attribute value
-            child_attr_val_idx = data[:,self.attribute] == child.attribute_value
+            child_attr_val_idx = data[:, self.attribute] == child.attribute_value
             # pass the array subsets to child trees for classification
             labels[child_attr_val_idx] = child.classify(data[child_attr_val_idx])
 
